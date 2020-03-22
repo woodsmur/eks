@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+  name: grpc-helloworld-server-service-ingress
+spec:
+  rules:
+  - host: grpc-helloworld-server-service.default.nginx.ingress.mycompany
+    http:
+      paths:
+      - backend:
+          serviceName: grpc-helloworld-server-service
+          servicePort: grpc
+  tls:
+  # This secret must exist beforehand
+  # The cert must also contain the subj-name grpc-helloworld-server.stack.build
+  # https://github.com/kubernetes/ingress-nginx/blob/master/docs/examples/PREREQUISITES.md#tls-certificates
+  - secretName: nginx.ingress.mycompany
+    hosts:
+      - grpc-helloworld-server-service.default.nginx.ingress.mycompany

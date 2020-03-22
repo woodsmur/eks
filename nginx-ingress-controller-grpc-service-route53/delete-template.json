@@ -1,0 +1,19 @@
+{
+  "Comment": "Delete __SERVICE_COMMENT_NAME__ eks Alias record",
+  "Changes": [
+    {
+      "Action": "DELETE",
+      "ResourceRecordSet": {
+        "Name": "__SERVICE_NAME__.__ROUTE53_HOSTED_ZONE__",
+        "Type": "A",
+        "SetIdentifier": "__ELB_DNS_NAME__.__SERVICE_NAME__.__ROUTE53_HOSTED_ZONE__",
+        "Weight": 100,
+        "AliasTarget": {
+          "HostedZoneId": "__ELB_HOSTED_ZONE_ID__",
+          "DNSName": "dualstack.__ELB_DNS_NAME__",
+          "EvaluateTargetHealth": false
+        }
+      }
+    }
+  ]
+}

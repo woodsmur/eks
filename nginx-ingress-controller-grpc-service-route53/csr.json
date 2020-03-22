@@ -1,0 +1,20 @@
+{
+  "hosts": [
+    "nginx.ingress.mycompany",
+    "*.nginx.ingress.mycompany"
+  ],
+  "key": {
+    "algo": "ecdsa",
+    "size": 256
+  },
+  "CN": "nginx.ingress.mycompany",
+  "names": [
+    {
+      "C":  "CN",
+      "L":  "Shanghai",
+      "O":  "Mycompany",
+      "OU": "WWW",
+      "ST": "Shanghai"
+    }
+  ]
+}
