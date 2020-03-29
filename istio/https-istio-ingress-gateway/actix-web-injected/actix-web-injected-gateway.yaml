@@ -1,0 +1,49 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: actix-web-injected-gateway-https
+  namespace: dev
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+    hosts:
+    - "actix-web-injected-https.istio.mycompany.example.com"
+    # - "*"    
+  # - port:
+  #     number: 80
+  #     name: http
+  #     protocol: HTTP
+  #   hosts:
+  #   - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: actix-web-injected-https
+  namespace: dev
+spec:
+  hosts:
+  - "actix-web-injected-https.istio.mycompany.example.com"
+  # - "*"
+  gateways:
+  - actix-web-injected-gateway-https
+  http:
+  - match:
+    - authority:
+        exact: actix-web-injected-https.istio.mycompany.example.com
+      uri:
+        prefix: /
+    route:
+    - destination:
+        host: actix-web-injected
+        port:
+          number: 80

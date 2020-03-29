@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "actix-web-injected"
+  namespace: "dev"
+spec:
+  selector:
+    matchLabels:
+      app: "actix-web-injected"
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: "actix-web-injected"
+    spec:
+      containers:
+      - image: quay.io/woodsmur/actix-web
+        resources:
+          limits:
+            cpu: "100m" 
+            memory: 200Mi
+          requests:
+            cpu: "100m"
+            memory: 200Mi
+        imagePullPolicy: Always
+        name: "actix-web-injected"
+        ports:
+        - containerPort: 8080
